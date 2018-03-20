@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Forms;
+using Application = System.Windows.Application;
 
-namespace mvp
-{
+namespace mvp {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
-    {
+    public partial class App : Application {
+       
     }
 }
