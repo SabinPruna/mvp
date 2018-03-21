@@ -7,7 +7,7 @@
         Title="Calculator" Height="631.4" Width="498.7" WindowStartupLocation="CenterScreen" Cursor="Arrow"
         Background="#FF282530" ResizeMode="CanMinimize" ShowInTaskbar="True"
         Icon="appicon.ico"
-        KeyDown="myTestKey">
+        KeyUp="KeyboardFunctionality">
     <Grid Margin="1,10,3,-9.4">
         <Grid.RowDefinitions>
             <RowDefinition Height="347*" />
@@ -17,141 +17,144 @@
             <Menu Width="Auto" Height="31" RenderTransformOrigin="0.5,0.5" Foreground="White" BorderBrush="#FF676074"
                   Background="#FF201E23"
                   FontSize="15" BorderThickness="0">
-                <MenuItem Header="_File">
-                    <MenuItem x:Name="AppExit" Header="Exit" HorizontalAlignment="Left" Width="180" Height="31"
-                              RenderTransformOrigin="0.5,0.5" Foreground="White" BorderBrush="#FF676074"
-                              Background="#FF201E23"
-                              FontSize="15" BorderThickness="0" Cursor="Hand"/>
-                    <MenuItem x:Name="CutButton" Header="Cut" HorizontalAlignment="Left"
+                <MenuItem Header="_File" Focusable="False">
+                    <MenuItem x:Name="CutButton" Header="Cut" HorizontalAlignment="Left" Focusable="False"
                               Width="180" Background="#FF201E23" Foreground="White" Height="31"
-                              BorderBrush="#FF201E23" BorderThickness="0" Click="cut_button_Click" Cursor="Hand" />
-                    <MenuItem x:Name="CopyButton" Header="Copy" HorizontalAlignment="Left"
-                           Width="180" Background="#FF201E23" Foreground="White" Height="31"
-                            BorderBrush="#FF201E23" BorderThickness="0" Click="copy_button_Click" Cursor="Hand" />
-                    <MenuItem x:Name="PasteButton" Header="Paste" HorizontalAlignment="Left" 
-                           Width="180" Background="#FF201E23" Foreground="White" Height="31"
-                            BorderBrush="#FF201E23" BorderThickness="0" Click="paste_button_Click" Cursor="Hand" />
-                    <MenuItem x:Name="DigitGrouping" Header="Digit Grouping" HorizontalAlignment="Left" 
+                              BorderBrush="#FF201E23" BorderThickness="0" Click="Cut_button_Click" Cursor="Hand" />
+                    <MenuItem x:Name="CopyButton" Header="Copy" HorizontalAlignment="Left" Focusable="False"
                               Width="180" Background="#FF201E23" Foreground="White" Height="31"
-                              BorderBrush="#FF201E23" BorderThickness="0" Checked="DigitGrouping_Checked_button_Click" Cursor="Hand" IsCheckable="true" />
+                              BorderBrush="#FF201E23" BorderThickness="0" Click="Copy_button_Click" Cursor="Hand" />
+                    <MenuItem x:Name="PasteButton" Header="Paste" HorizontalAlignment="Left" Focusable="False"
+                              Width="180" Background="#FF201E23" Foreground="White" Height="31"
+                              BorderBrush="#FF201E23" BorderThickness="0" Click="Paste_button_Click" Cursor="Hand" />
+                    <MenuItem x:Name="DigitGrouping" Header="Digit Grouping" HorizontalAlignment="Left" Focusable="False"
+                              Width="180" Background="#FF201E23" Foreground="White" Height="31"
+                              BorderBrush="#FF201E23" BorderThickness="0" Checked="DigitGrouping_Checked_button_Click"
+                              Cursor="Hand" IsCheckable="true" />
+                    <MenuItem x:Name="BodmasButton" Header="Ordinea Op." HorizontalAlignment="Left" Focusable="False"
+                              Width="180" Background="#FF201E23" Foreground="White" Height="31"
+                              BorderBrush="#FF201E23" BorderThickness="0" Cursor="Hand" />
                 </MenuItem>
-                <MenuItem Header="_Help">
-                    <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Width="140" Height="31"
+                <MenuItem Header="_Help" Focusable="False">
+                    <MenuItem x:Name="About" Header="About" HorizontalAlignment="Left" Focusable="False" Width="140" Height="31"
                               RenderTransformOrigin="0.5,0.5" Foreground="White" BorderBrush="#FF676074"
                               Background="#FF201E23"
-                              FontSize="15" BorderThickness="0" Click="about_button_Click" />
+                              FontSize="15" BorderThickness="0" Click="About_button_Click" />
                 </MenuItem>
             </Menu>
         </StackPanel>
         <TextBox Grid.Row="0" x:Name="ResultBox" Height="83" Margin="4,90,0,0" TextWrapping="Wrap" Text="0"
                  VerticalAlignment="Top"
                  Width="481" TextAlignment="Right" FontSize="48" BorderThickness="0,0,10,0" Foreground="#FFF5F0F0"
-                 Background="#FF111111" HorizontalAlignment="Left" BorderBrush="#FF111111" Cursor="None"
+                 Background="#FF111111" HorizontalAlignment="Left" Focusable="False" BorderBrush="#FF111111" Cursor="None"
                  ScrollViewer.CanContentScroll="True" IsEnabled="False" AllowDrop="False" IsUndoEnabled="False"
                  HorizontalScrollBarVisibility="Disabled" />
-        <Button x:Name="FactButton" Content="!" HorizontalAlignment="Left" Margin="85,171.6,0,0"
+        <Button x:Name="FactButton" Content="!" HorizontalAlignment="Left" Focusable="False" Margin="85,176.8,0,0"
                 VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
                 FontSize="29.333" BorderThickness="0" Click="Function" Grid.Row="1" />
-        <Button x:Name="PowerButton" Content="^" HorizontalAlignment="Left" Margin="85,207,0,0"
+        <Button Grid.Row="0" x:Name="PowerButton" Content="^" HorizontalAlignment="Left" Focusable="False" Margin="85,207,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="DoubleOperandFunction" />
-        <Button x:Name="SqrtButton" Content="√" HorizontalAlignment="Left" Margin="166,207,0,0"
+        <Button Grid.Row="0" x:Name="SqrtButton" Content="√" HorizontalAlignment="Left" Focusable="False" Margin="166,207,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Function" />
-        <Button x:Name="PiButton" Content="π" HorizontalAlignment="Left" Margin="166,270,0,0" VerticalAlignment="Top"
+        <Button Grid.Row="0" x:Name="PiButton" Content="π" HorizontalAlignment="Left" Focusable="False" Margin="166,270,0,0"
+                VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
-                FontSize="29.333" BorderThickness="0" Click="pi_button_Click" />
-        <Button x:Name="ClearButton" Content="C" HorizontalAlignment="Left" Margin="328,207,0,0"
+                FontSize="29.333" BorderThickness="0" Click="Pi_button_Click" />
+        <Button Grid.Row="0" x:Name="ClearButton" Content="C" HorizontalAlignment="Left" Focusable="False" Margin="328,207,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
-                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="clear_button_Click" />
-        <Button x:Name="ClrEntryButton" Content="CE" HorizontalAlignment="Left" Margin="409,207,0,0"
+                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Clear_button_Click" />
+        <Button Grid.Row="0" x:Name="ClrEntryButton" Content="CE" HorizontalAlignment="Left" Focusable="False" Margin="409,207,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Clr_entry_button_Click" />
-        <Button x:Name="EButton" Content="e" HorizontalAlignment="Left" Margin="247,270,0,0" VerticalAlignment="Top"
+        <Button Grid.Row="0" x:Name="EButton" Content="e" HorizontalAlignment="Left" Focusable="False" Margin="247,270,0,0" VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
-                FontSize="29.333" BorderThickness="0" Click="e_button_Click" />
-        <Button x:Name="SevenButton" Content="7" HorizontalAlignment="Left" Margin="85,333,0,0"
+                FontSize="29.333" BorderThickness="0" Click="E_button_Click" />
+        <Button x:Name="SevenButton" Content="7" HorizontalAlignment="Left" Focusable="False" Margin="85,333,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold"
-                Grid.RowSpan="2" />
-        <Button x:Name="FourButton" Content="4" HorizontalAlignment="Left" Margin="85,49.6,0,0" VerticalAlignment="Top"
+                Grid.Row="0" Grid.RowSpan="2" />
+        <Button x:Name="FourButton" Content="4" HorizontalAlignment="Left" Focusable="False" Margin="85,49.6,0,0" VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
                 FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold" Grid.Row="1" />
-        <Button x:Name="EightButton" Content="8" HorizontalAlignment="Left" Margin="166,333,0,0"
+        <Button x:Name="EightButton" Content="8" HorizontalAlignment="Left" Focusable="False" Margin="166,333,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold"
-                Grid.RowSpan="2" />
-        <Button x:Name="FiveButton" Content="5" HorizontalAlignment="Left" Margin="166,49.6,0,0"
+                Grid.Row="0" Grid.RowSpan="2" />
+        <Button x:Name="FiveButton" Content="5" HorizontalAlignment="Left" Focusable="False" Margin="166,49.6,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold"
                 Grid.Row="1" />
-        <Button x:Name="NineButton" Content="9" HorizontalAlignment="Left" Margin="247,333,0,0"
+        <Button x:Name="NineButton" Content="9" HorizontalAlignment="Left" Focusable="False" Margin="247,333,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold"
-                Grid.RowSpan="2" />
-        <Button x:Name="SixButton" Content="6" HorizontalAlignment="Left" Margin="247,49.6,0,0" VerticalAlignment="Top"
+                Grid.Row="0" Grid.RowSpan="2" />
+        <Button x:Name="SixButton" Content="6" HorizontalAlignment="Left" Focusable="False" Margin="247,49.6,0,0" VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
                 FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold" Grid.Row="1" />
-        <Button x:Name="OneButton" Content="1" HorizontalAlignment="Left" Margin="85,112.6,0,0" VerticalAlignment="Top"
+        <Button x:Name="OneButton" Content="1" HorizontalAlignment="Left" Focusable="False" Margin="85,112.6,0,0" VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
                 FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold" Grid.Row="1" />
-        <Button x:Name="TwoButton" Content="2" HorizontalAlignment="Left" Margin="166,112.6,0,0"
+        <Button x:Name="TwoButton" Content="2" HorizontalAlignment="Left" Focusable="False" Margin="166,112.6,0,0"
                 VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
                 FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold" Grid.Row="1" />
-        <Button x:Name="ThreeButton" Content="3" HorizontalAlignment="Left" Margin="247,112.6,0,0"
+        <Button x:Name="ThreeButton" Content="3" HorizontalAlignment="Left" Focusable="False" Margin="247,112.6,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold"
                 Grid.Row="1" />
-        <Button x:Name="ZeroButton" Content="0" HorizontalAlignment="Left" Margin="166,176.6,0,0"
+        <Button x:Name="ZeroButton" Content="0" HorizontalAlignment="Left" Focusable="False" Margin="166,176.6,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="NumberClick" FontWeight="Bold"
                 Grid.Row="1" />
-        <Button x:Name="DecimalButton" Content="." HorizontalAlignment="Left" Margin="247,176.6,0,0"
+        <Button x:Name="DecimalButton" Content="." HorizontalAlignment="Left" Focusable="False" Margin="247,176.6,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
-                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="decimal_button_Click" Grid.Row="1" />
-        <Button x:Name="EqualsButton" Content="=" HorizontalAlignment="Left" Margin="328,176.6,0,0"
+                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Decimal_button_Click" Grid.Row="1" />
+        <Button x:Name="EqualsButton" Content="=" HorizontalAlignment="Left" Focusable="False" Margin="328,176.6,0,0"
                 VerticalAlignment="Top" Width="157" Height="59" Foreground="White" BorderBrush="#FF676074"
-                Background="#FFA80B0B" FontSize="29.333" BorderThickness="0" Click="equals_button_Click" Grid.Row="1" />
-        <Button x:Name="MrButton" Content="MR" HorizontalAlignment="Left" Margin="328,270,0,0" VerticalAlignment="Top"
+                Background="#FF083AAE" FontSize="29.333" BorderThickness="0" Click="Equals_button_Click" Grid.Row="1" />
+        <Button Grid.Row="0" x:Name="MrButton" Content="MR" HorizontalAlignment="Left" Focusable="False" Margin="328,270,0,0" VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
-                FontSize="29.333" BorderThickness="0" Click="mr_button_Click" />
-        <Button x:Name="McButton" Content="MC" HorizontalAlignment="Left" Margin="409,270,0,0" VerticalAlignment="Top"
+                FontSize="29.333" BorderThickness="0" Click="Mr_button_Click" />
+        <Button Grid.Row="0" x:Name="McButton" Content="MC" HorizontalAlignment="Left" Focusable="False" Margin="409,270,0,0" VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
-                FontSize="29.333" BorderThickness="0" Click="mc_button_Click" />
-        <Button x:Name="MaddButton" Content="M+" HorizontalAlignment="Left" Margin="328,333,0,0"
+                FontSize="29.333" BorderThickness="0" Click="Mc_button_Click" />
+        <Button x:Name="MaddButton" Content="M+" HorizontalAlignment="Left" Focusable="False" Margin="328,333,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
-                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Madd_button_Click" Grid.RowSpan="2" />
-        <Button x:Name="MsubButton" Content="M-" HorizontalAlignment="Left" Margin="409,333,0,0"
+                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Madd_button_Click" Grid.Row="0"
+                Grid.RowSpan="2" />
+        <Button x:Name="MsubButton" Content="M-" HorizontalAlignment="Left" Focusable="False" Margin="409,333,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
-                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="msub_button_Click" Grid.RowSpan="2" />
-        <Button x:Name="DivideButton" Content="/" HorizontalAlignment="Left" Margin="328,49.6,0,0"
+                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Msub_button_Click" Grid.Row="0"
+                Grid.RowSpan="2" />
+        <Button x:Name="DivideButton" Content="/" HorizontalAlignment="Left" Focusable="False" Margin="328,49.6,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="DoubleOperandFunction" Grid.Row="1" />
-        <Button x:Name="MultiplyButton" Content="x" HorizontalAlignment="Left" Margin="409,49.6,0,0"
+        <Button x:Name="MultiplyButton" Content="x" HorizontalAlignment="Left" Focusable="False" Margin="409,49.6,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="DoubleOperandFunction" Grid.Row="1" />
-        <Button x:Name="SubButton" Content="-" HorizontalAlignment="Left" Margin="328,112.6,0,0"
+        <Button x:Name="SubButton" Content="-" HorizontalAlignment="Left" Focusable="False" Margin="328,112.6,0,0"
                 VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
                 FontSize="29.333" BorderThickness="0" Click="DoubleOperandFunction" Grid.Row="1" />
-        <Button x:Name="AddButton" Content="+" HorizontalAlignment="Left" Margin="409,112.6,0,0"
+        <Button x:Name="AddButton" Content="+" HorizontalAlignment="Left" Focusable="False" Margin="409,112.6,0,0"
                 VerticalAlignment="Top"
                 Width="76" Height="59" Foreground="White" BorderBrush="#FF676074" Background="#FF201E23"
                 FontSize="29.333" BorderThickness="0" Click="DoubleOperandFunction" Grid.Row="1" />
-        <TextBox x:Name="EquationBox" Height="49" Margin="88,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+        <TextBox Grid.Row="0" x:Name="EquationBox" Height="49" Margin="88,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                  Width="400" TextAlignment="Right" FontSize="29.333" BorderThickness="0,0,10,0" Foreground="#FF959595"
-                 Background="#FF111111" HorizontalAlignment="Left" BorderBrush="#FF111111" Cursor="None"
+                 Background="#FF111111" HorizontalAlignment="Left" Focusable="False" BorderBrush="#FF111111" Cursor="None"
                  IsEnabled="False" />
-        <Label x:Name="MemoryLabel" Content="0" HorizontalAlignment="Left" Margin="2,36,0,0" VerticalAlignment="Top"
+        <Label Grid.Row="0" x:Name="MemoryLabel" Content="0" HorizontalAlignment="Left" Focusable="False" Margin="2,36,0,0" VerticalAlignment="Top"
                Width="81" Height="49" FontSize="13.333" Foreground="White" Background="#FF1B1A1F" />
-        
-        <Button x:Name="NegateButton" Content="-n" HorizontalAlignment="Left" Margin="85,270,0,0"
+
+        <Button Grid.Row="0" x:Name="NegateButton" Content="-n" HorizontalAlignment="Left" Focusable="False" Margin="85,270,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
                 Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Function" />
-        <Button x:Name="BackButton" Content="←" HorizontalAlignment="Left" Margin="247,207,0,0"
+        <Button Grid.Row="0" x:Name="BackButton" Content="←" HorizontalAlignment="Left" Focusable="False" Margin="247,207,0,0"
                 VerticalAlignment="Top" Width="76" Height="59" Foreground="White" BorderBrush="#FF676074"
-                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="back_button_Click" />
+                Background="#FF201E23" FontSize="29.333" BorderThickness="0" Click="Back_button_Click" />
     </Grid>
 </Window>

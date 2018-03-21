@@ -1,63 +1,45 @@
-﻿// General purpose calculator, written by Areeb Beigh
-// github.io/areeb-beigh
-
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-
+using mvp.Properties;
 
 namespace mvp {
-    /// <summary>
-    ///     Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow {
-        // Max digits to be shown in the memory label, does not affect the actual number stored in memory
         private const int MAX_MEMORY_LABEL_LENGTH = 6;
-
-        // Default font result box font size
         private const int DEFAULT_FONT_SIZE = 48;
 
-        // Errors that may occur
         private const string OVERFLOW = "Overflow";
         private const string INVALID_INPUT = "Invalid input";
         private const string NOT_A_NUMBER = "NaN";
-
         private readonly string[] _errors = {OVERFLOW, INVALID_INPUT, NOT_A_NUMBER};
 
-
-        // True if the result box is to be cleared when a number is entered
         private bool _clearNext;
-
-        // Holds the current operation
         private Operations _currentOperation = Operations.Null;
-
-        // True if a function (sin, tan, ln, log etc) was called on the number during another mathematical operation
         private bool _functionCheck;
-
-        // True if the text in the result box has not been changed after clicking an operator
         private bool _isOldText;
-
-        // True if the text in the result box is the result of some computation
         private bool _isResult;
-
-        // Stores the number in memory accessed via MR
         private double _memory;
-
-        // True if there is an on going math operation
         private bool _operationCheck;
-
-        // Stores the text in the text box after a new math operation is selected
         private string _previousText;
 
         public MainWindow() {
             InitializeComponent();
             MinimizeToTray.Enable(this);
+
+            DigitGrouping.IsChecked = Settings.Default.DG;
+
+            Application.Current.MainWindow.Closing += MainWindow_Closing;
+        }
+
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Settings.Default.DG = DigitGrouping.IsChecked;
+            Settings.Default.Save();
         }
 
         /// <summary>
@@ -108,7 +90,6 @@ namespace mvp {
         ///     If append is true then the given text is appended to the existing text in the equation box.
         /// </summary>
         private void UpdateEquationBox(string equation, bool append = false) {
-            // Removes pointless decimals from the numbers in the equation
             equation = Regex.Replace(equation, @"(\d+)\.\s", "$1 ");
 
             if (equation.Length > 10) {
@@ -157,25 +138,25 @@ namespace mvp {
                 return;
             }
 
-            double a = double.Parse(_previousText); // first operand
-            double b = double.Parse(ResultBox.Text); // second operand
+            double firstOperand = double.Parse(_previousText);
+            double secondOperand = double.Parse(ResultBox.Text);
             double result;
 
             switch (_currentOperation) {
                 case Operations.Division:
-                    result = a / b;
+                    result = firstOperand / secondOperand;
                     break;
                 case Operations.Multiplication:
-                    result = a * b;
+                    result = firstOperand * secondOperand;
                     break;
                 case Operations.Addition:
-                    result = a + b;
+                    result = firstOperand + secondOperand;
                     break;
                 case Operations.Subtraction:
-                    result = a - b;
+                    result = firstOperand - secondOperand;
                     break;
                 case Operations.Power:
-                    result = Math.Pow(a, b);
+                    result = Math.Pow(firstOperand, secondOperand);
                     break;
                 default:
                     return;
@@ -188,10 +169,8 @@ namespace mvp {
             _operationCheck = false;
             _previousText = null;
             string equation;
-            // If a function button was not clicked during a mathematical operation then the equation box will have the text with the
-            // format <operand a> <operation> <operand b as a number> else <operand a> <operation> <func>(<operand b>)
             if (!_functionCheck) {
-                equation = EquationBox.Text + b;
+                equation = EquationBox.Text + secondOperand;
             }
             else {
                 equation = EquationBox.Text;
@@ -258,13 +237,6 @@ namespace mvp {
                         return;
                     }
 
-                    if (number > 3248
-                    ) // chose this number because the default windows calculator doesn't go beyond this number
-                    {
-                        ShowError(OVERFLOW);
-                        return;
-                    }
-
                     double res = 1;
                     if (Math.Abs(number - 1) < 1 || Math.Abs(number) < 1) {
                         result = res.ToString(CultureInfo.InvariantCulture);
@@ -277,16 +249,6 @@ namespace mvp {
 
                     equation = "fact(" + number + ")";
                     result = res.ToString();
-                    break;
-
-                case "ln":
-                    equation = "ln(" + number + ")";
-                    result = Math.Log(number).ToString();
-                    break;
-
-                case "log":
-                    equation = "log(" + number + ")";
-                    result = Math.Log10(number).ToString();
                     break;
 
                 case "√":
@@ -355,23 +317,23 @@ namespace mvp {
         ///     Appends a decimal point to the number in the result box on click,
         ///     if the number already has a decimal point then no action is taken
         /// </summary>
-        private void decimal_button_Click(object sender, RoutedEventArgs e) {
+        public void Decimal_button_Click(object sender, RoutedEventArgs e) {
             if (!ResultBox.Text.Contains(".")) {
                 string text = ResultBox.Text += ".";
                 ShowText(text, false);
             }
         }
 
-        private void pi_button_Click(object sender, RoutedEventArgs e) {
+        public void Pi_button_Click(object sender, RoutedEventArgs e) {
             if (!_operationCheck) {
                 UpdateEquationBox("");
             }
 
             ShowText(Math.PI.ToString());
-            _isResult = true; // Constants cannot be changed
+            _isResult = true;
         }
 
-        private void e_button_Click(object sender, RoutedEventArgs e) {
+        private void E_button_Click(object sender, RoutedEventArgs e) {
             if (!_operationCheck) {
                 UpdateEquationBox("");
             }
@@ -389,7 +351,7 @@ namespace mvp {
             UpdateMemoryLabel();
         }
 
-        private void msub_button_Click(object sender, RoutedEventArgs e) {
+        private void Msub_button_Click(object sender, RoutedEventArgs e) {
             if (_errors.Contains(ResultBox.Text)) {
                 return;
             }
@@ -398,19 +360,14 @@ namespace mvp {
             UpdateMemoryLabel();
         }
 
-        private void mc_button_Click(object sender, RoutedEventArgs e) {
-            _memory = 0;
-            UpdateMemoryLabel();
-        }
-
-        private void mr_button_Click(object sender, RoutedEventArgs e) {
+        private void Mr_button_Click(object sender, RoutedEventArgs e) {
             ShowText(_memory.ToString());
             if (!_operationCheck) {
                 UpdateEquationBox("");
             }
         }
 
-        private void clear_button_Click(object sender, RoutedEventArgs e) {
+        private void Clear_button_Click(object sender, RoutedEventArgs e) {
             ResultBox.Text = "0";
             _operationCheck = false;
             _previousText = null;
@@ -423,18 +380,16 @@ namespace mvp {
             ResetFontSize();
         }
 
-        private void equals_button_Click(object sender, RoutedEventArgs e) {
+        private void Equals_button_Click(object sender, RoutedEventArgs e) {
             CalculateResult();
         }
 
-        private void about_button_Click(object sender, RoutedEventArgs e) {
-
+        private void About_button_Click(object sender, RoutedEventArgs e) {
             AboutWindow aboutWindow = new AboutWindow();
             aboutWindow.Show();
         }
 
-        // Copy
-        private void copy_button_Click(object sender, RoutedEventArgs e) {
+        private void Copy_button_Click(object sender, RoutedEventArgs e) {
             if (_errors.Contains(ResultBox.Text)) {
                 return;
             }
@@ -442,8 +397,7 @@ namespace mvp {
             Clipboard.SetData(DataFormats.UnicodeText, ResultBox.Text);
         }
 
-        // Paste
-        private void paste_button_Click(object sender, RoutedEventArgs e) {
+        private void Paste_button_Click(object sender, RoutedEventArgs e) {
             object clipboardData = Clipboard.GetData(DataFormats.UnicodeText);
             if (clipboardData != null) {
                 string data = clipboardData.ToString();
@@ -451,7 +405,7 @@ namespace mvp {
             }
         }
 
-        private void back_button_Click(object sender, RoutedEventArgs e) {
+        private void Back_button_Click(object sender, RoutedEventArgs e) {
             if (_isResult) {
                 return;
             }
@@ -461,48 +415,7 @@ namespace mvp {
             ShowText(text, false);
         }
 
-        // private void keyboardInput(object sender, System.Windows.Input.KeyEventArgs e)
-        // {
-        //     string keyString = e.Key.ToString();
-        //     //MessageBox.Show(keyString);
-        //     Dictionary<string, Button> buttonShortcuts = new Dictionary<string, Button>()
-        //     {
-        //         { "D0", zero_button },
-        //         { "D1", one_button },
-        //         { "D2", two_button },
-        //         { "D3", three_button },
-        //         { "D4", four_button },
-        //         { "D5", five_button },
-        //         { "D6", six_button },
-        //         { "D7", seven_button },
-        //         { "D8", eight_button },
-        //         { "D9", nine_button },
-        //         { "P", pi_button },
-        //         { "E", e_button },
-        //         { "S", sin_button },
-        //         { "C", cos_button },
-        //         { "T", tan_button },
-        //         { "Return", equals_button },
-        //         { "Back", back_button }
-        //     };
-        //     string[] numberButtons =
-        //     {
-        //         "D0",
-        //         "D1",
-        //         "D2",
-        //         "D3",
-        //         "D4",
-        //         "D5",
-        //         "D6",
-        //         "D7",
-        //         "D8",
-        //         "D9",
-        //     };
-
-        //     if (numberButtons.Contains(keyString))
-        //     numberClick(buttonShortcuts[keyString], null);
-        //}
-        private void cut_button_Click(object sender, RoutedEventArgs e) {
+        private void Cut_button_Click(object sender, RoutedEventArgs e) {
             if (_errors.Contains(ResultBox.Text)) {
                 return;
             }
@@ -512,57 +425,49 @@ namespace mvp {
             ResetFontSize();
         }
 
-        // Math operations that take two operands
-        private enum Operations {
-            Addition,
-            Subtraction,
-            Division,
-            Multiplication,
-            Power,
-            Null // Represents no operation (used to reset the status)
-        }
-
         private void DigitGrouping_Checked_button_Click(object sender, RoutedEventArgs e) {
             CultureInfo culture = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentUICulture.Name);
             double number = double.Parse(GetNumber().ToString(), culture);
 
-            
-            ShowText(String.Format("{0:n0}", number));
+
+            ShowText($"{number:n0}");
         }
 
-        private void AddKeyboardFunctionality() {
-
-            this.TextInput += MainWindow_TextInput;
-
-            void TextInput(object sender, TextCompositionEventArgs e) {
-                if (new List<string> {"\b", "\r"}.Any(s => s == e.Text)) return;
-                if (e.Text.Length != 1) return;
-                char c = e.Text.First();
-                AddNewCharacter(c.ToString());
-
+        private void KeyboardFunctionality(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Escape) {
+                Clr_entry_button_Click(sender, e);
             }
-        }
 
-        private void MainWindow_TextInput(object sender, TextCompositionEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void myTestKey(object sender, KeyEventArgs e)
-        {
-            if ((e.Key >= Key.A && e.Key <= Key.Z) || (e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
-            {
-                if (e.Key.ToString().StartsWith("D") && e.Key.ToString().Length == 2)
-                {
+            if (e.Key >= Key.A && e.Key <= Key.Z || e.Key >= Key.D0 && e.Key <= Key.D9 ||
+                e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9 || e.Key == Key.Enter) {
+                if (e.Key.ToString().StartsWith("D") && e.Key.ToString().Length == 2) {
                     AddNewCharacter(e.Key.ToString()[1].ToString());
                 }
-
+                else {
+                    if (e.Key.ToString().StartsWith("NumPad") && e.Key.ToString().Length == 7) {
+                        AddNewCharacter(e.Key.ToString()[6].ToString());
+                    }
+                    else {
+                        if (e.Key == Key.Enter) {
+                            Equals_button_Click(sender, e);
+                        }
+                    }
+                }
             }
         }
 
-
         private void AddNewCharacter(string c) {
-            ResultBox.Text = ResultBox.Text + c;
+            if (ResultBox.Text == "0") {
+                ResultBox.Text = c;
+            }
+            else {
+                ResultBox.Text = ResultBox.Text + c;
+            }
+        }
+
+        private void Mc_button_Click(object sender, RoutedEventArgs e) {
+            _memory = 0;
+            UpdateMemoryLabel();
         }
     }
 }
