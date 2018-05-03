@@ -230,7 +230,6 @@ namespace mvp {
             string result = "";
 
             switch (buttonText) {
-                // C# doesn't have a Math.factorial()? Who the fuck does that?!
                 case "!":
                     if (number < 0 || number.ToString().Contains(".")) {
                         ShowError(INVALID_INPUT);
@@ -379,7 +378,6 @@ namespace mvp {
             ResultBox.Text = "0";
             ResetFontSize();
         }
-
         private void Equals_button_Click(object sender, RoutedEventArgs e) {
             CalculateResult();
         }

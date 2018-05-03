@@ -1,0 +1,57 @@
+﻿<Window x:Class="mvp.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:mvp"
+        mc:Ignorable="d"
+        Title="Calculator | About" Height="600" Width="500" WindowStartupLocation="CenterScreen" Cursor="Arrow"
+        Background="#FF282530">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
+                   Foreground="White"
+                   Background="#FF201E23"
+                   FontSize="15">
+            Nume
+        </TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"
+                   Foreground="White"
+                   Background="#FF201E23"
+                   FontSize="15" Text="Pruna Sabin" />
+        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"
+                   Foreground="White"
+                   Background="#FF201E23"
+                   FontSize="15">
+            System Proccesors  
+        </TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"
+                   Foreground="White"
+                   Background="#FF201E23"
+                   FontSize="15" Name="ProcCount" />
+        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"
+                   Foreground="White"
+                   Background="#FF201E23"
+                   FontSize="15">
+            Link
+        </TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"
+                   Foreground="White"
+                   Background="#FF201E23"
+                   FontSize="15" >
+            <Hyperlink NavigateUri="https://intranet.unitbv.ro/Acasa" RequestNavigate="Hyperlink_RequestNavigate">
+                Sabin Pruna | Unitbv
+            </Hyperlink>
+        </TextBlock>
+    </Grid>
+</Window>
